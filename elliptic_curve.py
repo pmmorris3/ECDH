@@ -7,8 +7,22 @@ where a,b /in F_p and -16(4a^3 + 27b^2) /neq 0 (discriminant being non-zero guar
 
 Has natural abelian group structure on the set of all points (x,y) in F_p x F_p satisfying equation E with the additional point at infinity.
 """
-from prime import isprime
 from convert_to_binary import tobinary
+
+def isprime(n):
+	factors = []
+	if (n>1):
+		floor_sqrt = int(n ** (0.5))
+		for d in range(2,floor_sqrt + 1):
+			if n % d != 0:
+				continue
+			factors.append(d)
+			n = n/d
+
+		if len(factors) == 0:
+			return True
+	return False
+
 INF_POINT = None #abstract point at infinity
 
 
