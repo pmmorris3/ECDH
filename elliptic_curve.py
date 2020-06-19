@@ -9,6 +9,10 @@ Has natural abelian group structure on the set of all points (x,y) in F_p x F_p 
 """
 import math
 
+
+INF_POINT = None #abstract point at infinity
+
+
 def tobinary(n):
 	while(n>=0):
 		i = 0
@@ -24,8 +28,8 @@ def tobinary(n):
 				binary_digits.append(0)
 				n=int(n/2)
 		return binary_digits
-		break
 
+		
 def isprime(n):
 	factors = []
 	if (n>1):
@@ -39,8 +43,6 @@ def isprime(n):
 		if len(factors) == 0:
 			return True
 	return False
-
-INF_POINT = None #abstract point at infinity
 
 
 class EllipticCurve:
