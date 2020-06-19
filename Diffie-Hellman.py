@@ -6,7 +6,6 @@ Alice chooses a secret message (a number a with 0 < a < n).
 
 """
 
-from prime import isprime
 from math import log
 import random
 import subprocess
