@@ -6,13 +6,12 @@ Alice chooses a secret message (a number a with 0 < a < n).
 
 """
 
-from math import log
-import random
+from random import SystemRandom
 import subprocess
 from Elliptic_Curve import EllipticCurve
 from Crypto.Cipher import AES
 import hashlib
-
+rand=SystemRandom()
 def hashit(str):
 	"""
 	Returns the digest of the SHA-256 hash function for use as the key in our AES-256 encryption.
@@ -78,8 +77,8 @@ if __name__ == "__main__":
 	print(bool(nprime))
 
 
-	b = random.randrange(1,N)
-	a = random.randrange(1,N)
+	b = rand.getrandbits(256)%N
+	a = rand.getrandbits(256)%N
 	bP = ec.multiply(b,P)
 	aP = ec.multiply(a,P)
 	abP = ec.multiply(a*b,P)
