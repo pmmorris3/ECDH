@@ -9,25 +9,43 @@ Alice chooses a secret message (a number a with 0 < a < n).
 from math import log
 import random
 import subprocess
-from elliptic_curve import EllipticCurve
+from Elliptic_Curve import EllipticCurve
+from Crypto.Cipher import AES
+import hashlib
 
+def hashit(str):
+	"""
+	Returns the digest of the SHA-256 hash function for use as the key in our AES-256 encryption.
+	"""
+	result = hashlib.sha256(str.encode())
+	return result.digest()
 
 def encrypt(message, exchanged_value):
 	"""
-	A dumb way to encrypt a message
+	Encrypts the message using the symmetric encryption scheme AES-256 with x-coordinate of the shared secret as a key.
 	"""
-	encrypted_message = []
-	for char in message:
-		encrypted_message.append(ord(char)*exchanged_value[0])
-	return encrypted_message
+	data = message.encode("utf8")
+	key = hashit(exchanged_value)
+	cipher = AES.new(key,AES.MODE_EAX)
+	nonce = cipher.nonce
+	ciphertext,tag = cipher.encrypt_and_digest(data)
+	return(nonce,ciphertext,tag)
 
 
 def decrypt(encrypted, exchanged_value):
-	message = []
-	for char in encrypted:
-		val = int(char/exchanged_value[0])
-		message.append(chr(val))
-	return ''.join(str(e) for e in message)
+	"""
+	Decrypting the message. The variable "encrypted" is a tuple (nonce,ciphertext,tag).
+	Since bob has the shared secret, he can make the appropriate key.
+	For an attacker to obtain the correct key, they must solve the ECDLP.
+	"""
+	key = hashit(exchanged_value)
+	cipher = AES.new(key,AES.MODE_EAX, nonce = encrypted[0])
+	plaintext = cipher.decrypt(encrypted[1])
+	try:
+		cipher.verify(encrypted[2])
+	except ValueError:
+		print("The message could not be verified!")
+	return plaintext.decode("utf8")
 
 if __name__ == "__main__":
 
@@ -67,18 +85,18 @@ if __name__ == "__main__":
 	abP = ec.multiply(a*b,P)
 
 
-	print("Alice's private key is: ", a)
-	print("Alice's public key is: ", aP)
-	print("Bob's private key is: ",b)
-	print("Bob's public key is: ", bP)
-	print("The exchanged value is: ", abP)
+	print("Alice's private key is: ", format(a,'x'))
+	print("Alice's public key is: ({:x}, {:x} ) ".format(aP[0],aP[1]))
+	print("Bob's private key is: ",format(b,'x'))
+	print("Bob's public key is: ({:x}, {:x} ) ".format(bP[0],bP[1]))
+	print("The exchanged value is: ({:x}, {:x} ) ".format(abP[0],abP[1]))
 
 
 	message_in = print("Alice, enter your message to be encrypted: \n")
 	message_in = '\n'.join(iter(input, ""))
 	print("The encrypted message is:")
-	encrypted = encrypt(message_in,abP)
-	encrypted_str = ' '.join(str(e) for e in encrypted)
-	print(encrypted_str)
-	print("The decrypted message is:")
-	print(decrypt(encrypted,abP	))
+	encrypted = encrypt(message_in,str(abP[0]))
+	print(encrypted[1].hex())
+	print("Bob uses the shared secret to see that the original message is:")
+	decrypted_message = decrypt(encrypted,str(abP[0]))
+	print(decrypted_message)
