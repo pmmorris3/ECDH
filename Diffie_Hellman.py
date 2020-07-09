@@ -62,7 +62,7 @@ if __name__ == "__main__":
 
 
 	numberPoints = 115792089237316195423570985008687907852837564279074904382605163141518161494337
-	print("The order of E is: ", numberPoints.stdout)
+	print("The order of E is: ", numberPoints)
 	print("-"*80)
 
 
