@@ -7,7 +7,6 @@ Alice chooses a secret message (a number a with 0 < a < n).
 """
 
 from random import SystemRandom
-import subprocess
 from Elliptic_Curve import EllipticCurve
 try:
 	from Crypto.Cipher import AES
@@ -72,8 +71,7 @@ if __name__ == "__main__":
 	print(P)
 	print("The order of this point is:")
 	print(numberPoints)
-	nprime = subprocess.run('echo isprime(ellorder(ellinit([0,7],115792089237316195423570985008687907853269984665640564039457584007908834671663),[55066263022277343669578718895168534326250603453777594175500187360389116729240, 32670510020758816978083085130507043184471273380659243275938904335757337482424])) | gp -q', stdout=subprocess.PIPE, text=True, shell=True)
-	print("The order of the point is prime")
+	print("The order of the point is prime.")
 
 
 	b = rand.getrandbits(256)%N
