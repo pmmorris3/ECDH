@@ -62,11 +62,8 @@ if __name__ == "__main__":
 		print("y^2 = " + "x^3 + " + "x + " + str(ec.b))
 
 
-	#calculate the order of E in GP/PARI
-	numberPoints = subprocess.run('echo ellcard(ellinit([0,7]),115792089237316195423570985008687907853269984665640564039457584007908834671663) | gp -q', stdout=subprocess.PIPE, text=True, shell=True) 
+	numberPoints = 115792089237316195423570985008687907852837564279074904382605163141518161494337
 	print("The order of E is: ", numberPoints.stdout)
-	n = subprocess.run('echo ellorder(ellinit([0,7],115792089237316195423570985008687907853269984665640564039457584007908834671663),[55066263022277343669578718895168534326250603453777594175500187360389116729240, 32670510020758816978083085130507043184471273380659243275938904335757337482424]) | gp -q', stdout=subprocess.PIPE, text=True, shell=True)
-	N = int(n.stdout)
 	print("-"*80)
 
 
@@ -74,11 +71,9 @@ if __name__ == "__main__":
 	P = (int("79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798",16),int("483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8",16))
 	print(P)
 	print("The order of this point is:")
-	print(N)
-	#run isprime in GP/PARI
+	print(numberPoints)
 	nprime = subprocess.run('echo isprime(ellorder(ellinit([0,7],115792089237316195423570985008687907853269984665640564039457584007908834671663),[55066263022277343669578718895168534326250603453777594175500187360389116729240, 32670510020758816978083085130507043184471273380659243275938904335757337482424])) | gp -q', stdout=subprocess.PIPE, text=True, shell=True)
-	print("The order of the point is prime?")
-	print(bool(nprime))
+	print("The order of the point is prime")
 
 
 	b = rand.getrandbits(256)%N
