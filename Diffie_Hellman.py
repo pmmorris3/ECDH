@@ -9,7 +9,11 @@ Alice chooses a secret message (a number a with 0 < a < n).
 from random import SystemRandom
 import subprocess
 from Elliptic_Curve import EllipticCurve
-from Crypto.Cipher import AES
+try:
+	from Crypto.Cipher import AES
+except ModuleNotFoundError:
+	print("You need to install pycryptodome")
+	exit(1)
 import hashlib
 rand=SystemRandom()
 def hashit(str):
