@@ -74,8 +74,8 @@ if __name__ == "__main__":
 	print("The order of the point is prime.")
 
 
-	b = rand.getrandbits(256)%N
-	a = rand.getrandbits(256)%N
+	b = rand.getrandbits(256)%numberPoints
+	a = rand.getrandbits(256)%numberPoints
 	bP = ec.multiply(b,P)
 	aP = ec.multiply(a,P)
 	abP = ec.multiply(a*b,P)
