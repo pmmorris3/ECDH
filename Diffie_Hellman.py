@@ -88,7 +88,7 @@ if __name__ == "__main__":
 	print("The exchanged value is: ({:x}, {:x} ) ".format(abP[0],abP[1]))
 
 
-	message_in = print("Alice, enter your message to be encrypted: \n")
+	print("Alice, enter your message to be encrypted: \n")
 	message_in = '\n'.join(iter(input, ""))
 	print("The encrypted message is:")
 	encrypted = encrypt(message_in,str(abP[0]))
