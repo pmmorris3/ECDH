@@ -152,7 +152,7 @@ class EllipticCurve:
 
 		this is a faster O(log n) method than the naive multiplication, which is exponential
 		"""
-		Q = None
+		Q = INF_POINT
 		binary_n = tobinary(n)
 		for x in binary_n:
 			if x == 1:
