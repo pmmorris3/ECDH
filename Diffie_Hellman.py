@@ -38,7 +38,7 @@ def decrypt(encrypted, exchanged_value):
 	"""
 	Decrypting the message. The variable "encrypted" is a tuple (nonce,ciphertext,tag).
 	Since bob has the shared secret, he can make the appropriate key.
-	For an attacker to obtain the correct key, they must solve the ECDLP.
+	For an attacker to (naively) obtain the correct key, they must solve the ECDLP.
 	"""
 	key = hashit(exchanged_value)
 	cipher = AES.new(key,AES.MODE_EAX, nonce = encrypted[0])
